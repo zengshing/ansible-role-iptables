@@ -1,0 +1,45 @@
+---
+
+iptables_enabled: yes                   # The role is enabled
+iptables_logging: yes                   # Log dropped packets
+
+iptables_flush_all: yes                 # Flush and remove all chains
+iptables_deny_all : yes                 # Deny all except allowed
+
+iptables_confdir: /etc/iptables
+iptables_rules_path: "{{ iptables_confdir }}/rules.v4"  # Path to rule file
+
+iptables_accept_rules_enable: true
+iptables_drop_rules_enable: true
+
+iptables_allowed_tcp_ports: [22, 25, 80, 443] # List of allowed tcp ports
+iptables_allowed_udp_ports: []          # List of allowed udp ports
+
+iptables_accept_rules:
+  - name: "manager"
+    targets: ["116.28.65.108/32", "112.90.177.108/32",
+              "121.9.13.176/28", "120.31.56.16/28",
+              "119.145.147.16/28", "116.28.65.249/32",
+              "121.201.60.66/32", "121.201.60.67/32 ",
+              "121.201.60.68/32", "121.201.60.69/32",
+              "119.145.147.88/32",
+              "112.73.72.5/32 -p tcp -m tcp --dport 8000:9000"]
+  - name: "xenapi"
+    targets: ["121.201.59.101/32", "121.201.59.102/32",
+              "121.201.48.146/32", "121.201.59.70/32"]
+  - name: "api nginx efly.cc"
+    targets: ["112.90.58.12/32",
+              "121.201.59.72/32 -p tcp -m tcp --dport 8000:9999",
+              "121.201.59.89/32 -p tcp -m tcp --dport 8000:9999"]
+  - name: "ntp server"
+    targets: ["121.201.95.220/32"]
+  - name: "preoline && online keepalived"
+    targets: ["121.201.48.131/32", "121.201.48.132/32",
+              "121.201.48.133/32"]
+  - name: "ansible master"
+    targets: ["121.201.127.156/32"]
+
+iptables_drop_rules:
+  - name: "api nginx efly.cc"
+    targets: ["0.0.0.0/0 -p tcp -m tcp --dport 8080",
+              "0.0.0.0/0 -p tcp -m tcp --dport 9999"]

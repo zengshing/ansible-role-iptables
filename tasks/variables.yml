@@ -1,0 +1,23 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Define iptables_packages.
+  set_fact:
+    iptables_packages: "{{ __iptables_packages | list }}"
+  when: iptables_packages is not defined
+
+- name: Define iptables_daemon.
+  set_fact:
+    iptables_daemon: "{{ __iptables_daemon }}"
+  when: iptables_daemon is not defined
+
+- name: Define iptables_confdir.
+  set_fact:
+    iptables_confdir: "{{ __iptables_confdir }}"
+  when: iptables_confdir is not defined
+
+- name: Define iptables_rules_path.
+  set_fact:
+    iptables_rules_path: "{{ __iptables_rules_path }}"
+  when: iptables_rules_path is not defined

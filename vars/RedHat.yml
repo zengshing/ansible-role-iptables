@@ -1,0 +1,9 @@
+---
+
+__iptables_daemon: iptables
+__iptables_rules: "/etc/sysconfig/iptables"
+__iptables_packages:
+  - iptables
+  - iptables-services
+__iptables_confdir: /etc/sysconfig
+__iptables_rules_path: "{{ iptables_confdir }}/iptables"  # Path to rule file

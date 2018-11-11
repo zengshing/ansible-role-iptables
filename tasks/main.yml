@@ -1,0 +1,8 @@
+---
+
+- name: Include OS-Special variables.
+  include_tasks: variables.yml
+
+- name: Install iptables
+  include_tasks: iptables.yml
+  when: iptables_enabled

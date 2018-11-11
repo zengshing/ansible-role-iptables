@@ -1,0 +1,8 @@
+---
+
+__iptables_packages:
+  - iptables
+  - iptables-persistent
+__iptables_daemon: netfilter-persistent
+__iptables_confdir: /etc/iptables
+__iptables_rules_path: "{{ iptables_confdir }}/rules.v4"  # Path to rule file

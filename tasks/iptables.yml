@@ -1,0 +1,57 @@
+---
+
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Check if Iptables is already installed.
+  stat: path=/etc/init.d/"{{ iptables_daemon }}"
+  register: iptables_installed
+
+- name: Update apt cache if iptables is not yet installed.
+  apt: update_cache=yes
+  when: iptables_installed.stat.exists == false and ansible_os_family == "Debian"
+
+- name: Install iptables-services
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ iptables_packages }}"
+  when: iptables_installed.stat.exists == false
+
+- name: Ensure that config directory is exists
+  file: state=directory path="{{ iptables_confdir }}"
+
+- name: Prepare iptables rules
+  template: src=etc/iptables.sh.j2 dest=/tmp/iptables.sh owner=root group=root mode=0744
+  notify: 
+    - iptables load
+
+- block:
+    - name: Stop and Disable ufw
+      ufw: "state=disabled"
+
+    - name: Set iptables rules
+      template:
+        src: iptables.j2
+        dest: "{{ iptables_rules_path }}"
+      notify:
+        - iptables restart
+  when: ansible_os_family == "Debian"
+
+- block:
+    - name: Ensure to disable selinux
+      # Disable SELinux
+      selinux:
+        state: disabled
+
+    - name: Stop and Disable firewall
+      service: "name=firewalld state=stopped enabled=false"
+
+    - name: Set iptables rules
+      template:
+        src: iptables.j2
+        dest: "{{ iptables_rules_path }}"
+      notify:
+        - iptables restart
+  when: ansible_os_family == "Redhat"

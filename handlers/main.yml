@@ -1,0 +1,10 @@
+---
+
+- name: iptables load
+  shell: /tmp/iptables.sh
+
+- name: iptables save
+  shell: iptables-save > "{{ iptables_rules_path }}"
+
+- name: iptables restart
+  service: name="{{ iptables_daemon }}" state=restarted enabled=true
