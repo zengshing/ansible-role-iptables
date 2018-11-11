@@ -4,7 +4,7 @@ services: docker
 
 env:
   global:
-    - ROLE_NAME: hosts
+    - ROLE_NAME: iptables
   matrix:
     - MOLECULE_DISTRO: centos7
 
