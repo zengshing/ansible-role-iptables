@@ -30,14 +30,6 @@
 - name: Ensure that config directory is exists
   file: state=directory path="{{ iptables_confdir }}"
 
-- name: Prepare iptables rules
-  template: src=iptables.sh.j2 dest=/tmp/iptables.sh owner=root group=root mode=0744
-
-- name: iptables load
-  shell: /tmp/iptables.sh
-  args:
-    executable: /bin/bash
-
 - block:
     - name: Stop and Disable ufw
       ufw: "state=disabled"
