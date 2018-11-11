@@ -2,7 +2,9 @@
 
 - name: iptables load
   shell: /tmp/iptables.sh
-
+  args:
+    executable: /bin/bash
+    
 - name: iptables save
   shell: iptables-save > "{{ iptables_rules_path }}"
 
