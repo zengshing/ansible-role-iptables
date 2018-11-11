@@ -1,20 +1,20 @@
 ---
 # The role is enabled
-iptables_enabled: yes                   
+iptables_enabled: yes
 # Log dropped packets
-iptables_logging: yes                   
+iptables_logging: yes
 # Flush and remove all chains
-iptables_flush_all: yes                 
+iptables_flush_all: yes
 # Deny all except allowed
-iptables_deny_all: yes                 
+iptables_deny_all: yes
 
 iptables_confdir: /etc/iptables
 # Path to rule file
-iptables_rules_path: "{{ iptables_confdir }}/rules.v4"  
+iptables_rules_path: "{{ iptables_confdir }}/rules.v4"
 # List of allowed tcp ports
-iptables_allowed_tcp_ports: [22, 25, 80, 443] 
+iptables_allowed_tcp_ports: [22, 25, 80, 443]
 # List of allowed udp ports
-iptables_allowed_udp_ports: []          
+iptables_allowed_udp_ports: []
 
 iptables_accept_rules_enable: true
 iptables_accept_rules:
