@@ -12,20 +12,23 @@
   when: iptables_installed.stat.exists == false and ansible_os_family == "Debian"
 
 - name: Install iptables-services
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ iptables_packages }}"
+  when: iptables_installed.stat.exists == false and ansible_os_family == "RedHat"
+
+- name: Install iptables-services
   apt:
     name: "{{ item }}"
     state: present
   with_items:
     - "{{ iptables_packages }}"
-  when: iptables_installed.stat.exists == false
+  when: iptables_installed.stat.exists == false and ansible_os_family == "Debian"
 
 - name: Ensure that config directory is exists
   file: state=directory path="{{ iptables_confdir }}"
-
-- name: Prepare iptables rules
-  template: src=etc/iptables.sh.j2 dest=/tmp/iptables.sh owner=root group=root mode=0744
-  notify: 
-    - iptables load
 
 - block:
     - name: Stop and Disable ufw

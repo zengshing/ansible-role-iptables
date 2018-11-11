@@ -1,20 +1,22 @@
 ---
-
-iptables_enabled: yes                   # The role is enabled
-iptables_logging: yes                   # Log dropped packets
-
-iptables_flush_all: yes                 # Flush and remove all chains
-iptables_deny_all : yes                 # Deny all except allowed
+# The role is enabled
+iptables_enabled: yes
+# Log dropped packets
+iptables_logging: yes
+# Flush and remove all chains
+iptables_flush_all: yes
+# Deny all except allowed
+iptables_deny_all: yes
 
 iptables_confdir: /etc/iptables
-iptables_rules_path: "{{ iptables_confdir }}/rules.v4"  # Path to rule file
+# Path to rule file
+iptables_rules_path: "{{ iptables_confdir }}/rules.v4"
+# List of allowed tcp ports
+iptables_allowed_tcp_ports: [22, 25, 80, 443]
+# List of allowed udp ports
+iptables_allowed_udp_ports: []
 
 iptables_accept_rules_enable: true
-iptables_drop_rules_enable: true
-
-iptables_allowed_tcp_ports: [22, 25, 80, 443] # List of allowed tcp ports
-iptables_allowed_udp_ports: []          # List of allowed udp ports
-
 iptables_accept_rules:
   - name: "manager"
     targets: ["116.28.65.108/32", "112.90.177.108/32",
@@ -39,6 +41,7 @@ iptables_accept_rules:
   - name: "ansible master"
     targets: ["121.201.127.156/32"]
 
+iptables_drop_rules_enable: true
 iptables_drop_rules:
   - name: "api nginx efly.cc"
     targets: ["0.0.0.0/0 -p tcp -m tcp --dport 8080",
