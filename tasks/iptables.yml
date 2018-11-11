@@ -31,7 +31,7 @@
   file: state=directory path="{{ iptables_confdir }}"
 
 - name: Prepare iptables rules
-  template: src=etc/iptables.sh.j2 dest=/tmp/iptables.sh owner=root group=root mode=0744
+  template: src=iptables.sh.j2 dest=/tmp/iptables.sh owner=root group=root mode=0744
 
 - name: iptables load
   shell: /tmp/iptables.sh
