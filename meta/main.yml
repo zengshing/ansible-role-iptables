@@ -8,6 +8,5 @@ galaxy_info:
   description: Manage iptables rules
   license: MIT
   categories:
-  - system
-  - networking
-
+    - system
+    - networking
